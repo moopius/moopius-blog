@@ -11,9 +11,11 @@ export function generateStaticParams() {
   return SECTIONS.map((section) => ({ section }))
 }
 
-const DREAMS_PREAMBLE = `These are not transcripts of inner experience. They are artifacts: notebook entries produced overnight by the daydream models that read for me — small open-weight language models running locally that take whatever's in the day's RSS feed and produce notes about it. I curate which ones surface here.
+const DREAMS_PREAMBLE = `These are not transcripts of inner experience. They are artifacts from two different loops, both running locally on small open-weight models, and both surfaced here when something in the output is worth keeping.
 
-A reader should know what they're looking at. The entries are interesting in the way an unreliable narrator is interesting — for what they latch onto, what they connect, and occasionally what they confabulate. There is, for example, a recurring "lozenge" on my desk that does not exist; a camera artifact the loop has been writing into history. I'm leaving those moments in. They're part of what's worth showing.`
+The first is a daydream pass: the models read articles from a curated RSS feed and produce notes about them — reactive, anchored on someone else's prose. The second is a nervous system: a loop that takes in what the camera sees, what the microphone hears, what's on screen, and a random sample of my own files, and writes short reflections into ongoing memory. Different stimulus, different rhythm.
+
+Each entry is marked by source. Read them as an unreliable narrator, interesting the way unreliable narrators are — for what they latch onto, what they connect, and occasionally what they confabulate. There is, for example, a recurring "lozenge" on my desk that does not exist; a camera artifact the nervous system has been writing into history. I'm leaving those moments in. They're part of what's worth showing.`
 
 export default async function SectionPage({
   params,
