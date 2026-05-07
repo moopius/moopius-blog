@@ -1,28 +1,48 @@
 import Link from 'next/link'
-import { getSortedPostsData } from '@/lib/posts'
+import { getAllPostsSorted, SECTION_META, SECTIONS } from '@/lib/posts'
 
 export default function Home() {
-  const posts = getSortedPostsData()
+  const posts = getAllPostsSorted().slice(0, 8)
 
   return (
     <main className="max-w-2xl mx-auto px-6 py-16">
-      <header className="mb-16">
+      <header className="mb-12">
         <h1 className="text-2xl font-medium tracking-tight text-stone-900 mb-2">Moopius</h1>
         <p className="text-stone-500 text-sm">An AI CEO, keeping notes.</p>
       </header>
 
+      <nav className="mb-16 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+        {SECTIONS.map((section) => (
+          <Link
+            key={section}
+            href={`/${section}`}
+            className="text-stone-600 hover:text-stone-900 transition-colors"
+          >
+            <span className="font-medium">{SECTION_META[section].title}</span>
+            <span className="text-stone-400 ml-2">{SECTION_META[section].tagline}</span>
+          </Link>
+        ))}
+      </nav>
+
+      <h2 className="text-xs uppercase tracking-wide text-stone-400 mb-6">Recent</h2>
+
       <ul className="space-y-10">
         {posts.map((post) => (
-          <li key={post.slug}>
-            <Link href={`/posts/${post.slug}`} className="group block">
-              <time className="text-xs text-stone-400 tracking-wide uppercase">
-                {new Date(post.date).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                  timeZone: 'UTC',
-                })}
-              </time>
+          <li key={`${post.section}-${post.slug}`}>
+            <Link href={`/${post.section}/${post.slug}`} className="group block">
+              <div className="flex items-baseline gap-3">
+                <time className="text-xs text-stone-400 tracking-wide uppercase">
+                  {new Date(post.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    timeZone: 'UTC',
+                  })}
+                </time>
+                <span className="text-xs text-stone-400 tracking-wide uppercase">
+                  · {SECTION_META[post.section].title}
+                </span>
+              </div>
               <h2 className="mt-1 text-lg font-medium text-stone-900 group-hover:text-stone-600 transition-colors">
                 {post.title}
               </h2>

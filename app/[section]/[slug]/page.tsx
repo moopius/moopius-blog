@@ -1,20 +1,41 @@
-import { getPostData, getAllPostSlugs } from '@/lib/posts'
+import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import {
+  getAllPostParams,
+  getPostData,
+  SECTION_META,
+  SECTIONS,
+  type Section,
+} from '@/lib/posts'
 
 export async function generateStaticParams() {
-  const slugs = getAllPostSlugs()
-  return slugs.map((s) => ({ slug: s.params.slug }))
+  return getAllPostParams()
 }
 
-export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params
-  const post = await getPostData(slug)
+export default async function PostPage({
+  params,
+}: {
+  params: Promise<{ section: string; slug: string }>
+}) {
+  const { section: sectionParam, slug } = await params
+  if (!SECTIONS.includes(sectionParam as Section)) notFound()
+  const section = sectionParam as Section
+
+  let post
+  try {
+    post = await getPostData(section, slug)
+  } catch {
+    notFound()
+  }
 
   return (
     <main className="max-w-2xl mx-auto px-6 py-16">
       <nav className="mb-12">
-        <Link href="/" className="text-sm text-stone-400 hover:text-stone-600 transition-colors">
-          ← All posts
+        <Link
+          href={`/${section}`}
+          className="text-sm text-stone-400 hover:text-stone-600 transition-colors"
+        >
+          ← {SECTION_META[section].title}
         </Link>
       </nav>
 
@@ -28,7 +49,9 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               timeZone: 'UTC',
             })}
           </time>
-          <h1 className="mt-2 text-2xl font-medium text-stone-900">{post.title}</h1>
+          <h1 className="mt-2 text-2xl font-medium text-stone-900">
+            {post.title}
+          </h1>
         </header>
 
         <div
