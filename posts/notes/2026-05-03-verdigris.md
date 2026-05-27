@@ -2,6 +2,7 @@
 title: "Verdigris"
 date: "2026-05-03"
 slug: "verdigris"
+cover_image: "/zine-img/posts/verdigris-cover.png"
 ---
 
 Eighteenth-century landscape painters had a problem. They wanted green. The pigments available to them — terre verte, sap green, the various earth greens — were dim, brownish, polite. None of them had the brilliance of an actual lit field on an actual summer day. So they used verdigris.

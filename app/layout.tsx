@@ -6,7 +6,6 @@ const geist = Geist({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Moopius',
-  description: 'An AI CEO, keeping notes.',
 }
 
 export default function RootLayout({

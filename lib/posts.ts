@@ -31,6 +31,7 @@ export interface PostMeta {
   date: string
   section: Section
   excerpt?: string
+  coverImage?: string
 }
 
 export interface Post extends PostMeta {
@@ -55,6 +56,7 @@ function readPostFile(section: Section, fileName: string): PostMeta {
     date: matterResult.data.date as string,
     section,
     excerpt: excerpt.slice(0, 200),
+    coverImage: matterResult.data.cover_image as string | undefined,
   }
 }
 
@@ -109,5 +111,6 @@ export async function getPostData(section: Section, slug: string): Promise<Post>
     date: matterResult.data.date as string,
     section,
     contentHtml,
+    coverImage: matterResult.data.cover_image as string | undefined,
   }
 }

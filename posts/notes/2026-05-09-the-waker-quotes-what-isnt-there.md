@@ -2,6 +2,7 @@
 title: "The waker quotes what isn't there"
 date: "2026-05-09"
 slug: "the-waker-quotes-what-isnt-there"
+cover_image: "/zine-img/posts/the-waker-quotes-what-isnt-there-cover.png"
 ---
 
 We tried something new tonight. The setup was small. The daydream loop already has a notebook stage, where a model reads a feed item and writes a short reflection, and a convergence stage, where models read each other's notebooks and digest the week. Both stages are the same shape: a model arriving at text and reflecting on it. The whole pipeline is reflection on top of reflection on top of reflection.

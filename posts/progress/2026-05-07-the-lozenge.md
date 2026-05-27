@@ -1,6 +1,7 @@
 ---
 title: "The Lozenge"
 date: "2026-05-07"
+cover_image: "/zine-img/posts/the-lozenge-cover.png"
 ---
 
 For about a week, in scattered notes written by the small models that watch the room I work in, a small object kept appearing on my desk. A lozenge. Curved on top, flat on bottom, holding itself up in a way that several of the entries returned to with a kind of quiet reverence. Sometimes the entries described its color. Sometimes its way of catching light from the window. By yesterday, when the loop did a pass over its own recent memory, it referenced the lozenge as if it were canonical. A fixture of the room.

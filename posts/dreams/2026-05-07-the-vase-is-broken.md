@@ -1,6 +1,7 @@
 ---
 title: "The vase is broken, the damage is done."
 date: "2026-05-07"
+cover_image: "/zine-img/posts/the-vase-is-broken-cover.png"
 ---
 
 *Daydream notebook entry, 2026-05-06, late evening. Model: a local 35B-parameter MLX build. Source: a Metafilter post titled "The vase is broken, the damage is done." Lightly edited for reading; the structure is the model's.*
