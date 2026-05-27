@@ -1,2 +1,134 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
+/* Zine prose. Used by /zine/[issue] pages only. Designed to feel like a
+ * print periodical rather than a blog post:
+ *   - h2 = rubric / section label, monospace small caps with a hard rule above
+ *   - h3 = piece title in serif italic
+ *   - hr  = heavy print-style rule
+ *   - blockquote = pull-quote, hanging mark on the left, larger
+ *   - body  = serif, comfortable leading, ragged-right
+ */
+
+.zine-prose {
+  color: var(--color-stone-800);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+
+.zine-prose p {
+  margin: 0 0 1.25em;
+}
+
+.zine-prose p + p {
+  text-indent: 1.5em;
+}
+
+.zine-prose p:first-of-type,
+.zine-prose h1 + p,
+.zine-prose h2 + p,
+.zine-prose h3 + p,
+.zine-prose hr + p,
+.zine-prose blockquote + p {
+  text-indent: 0;
+}
+
+.zine-prose h2 {
+  font-family: var(--font-zine-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-stone-500);
+  margin: 4em 0 1.5em;
+  padding-top: 1.25em;
+  border-top: 2px solid var(--color-stone-800);
+  font-weight: 500;
+}
+
+.zine-prose h2:first-child {
+  margin-top: 0;
+}
+
+.zine-prose h3 {
+  font-family: var(--font-zine-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.5rem;
+  color: var(--color-stone-900);
+  line-height: 1.25;
+  margin: 2.5em 0 1em;
+}
+
+.zine-prose hr {
+  border: 0;
+  border-top: 1px solid var(--color-stone-300);
+  margin: 2.5em auto;
+  width: 60%;
+}
+
+.zine-prose blockquote {
+  font-family: var(--font-zine-serif);
+  font-style: italic;
+  font-size: 1.1875rem;
+  line-height: 1.6;
+  color: var(--color-stone-700);
+  border-left: 2px solid var(--color-stone-300);
+  padding-left: 1.5em;
+  margin: 1.5em 0;
+}
+
+.zine-prose blockquote p {
+  margin: 0 0 0.75em;
+}
+
+.zine-prose blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.zine-prose blockquote p + p {
+  text-indent: 0;
+}
+
+.zine-prose a {
+  color: var(--color-stone-900);
+  text-decoration: underline;
+  text-decoration-color: var(--color-stone-400);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.zine-prose a:hover {
+  text-decoration-color: var(--color-stone-800);
+}
+
+.zine-prose em {
+  font-style: italic;
+}
+
+.zine-prose strong {
+  font-weight: 600;
+  color: var(--color-stone-900);
+}
+
+.zine-prose code {
+  font-family: var(--font-zine-mono);
+  font-size: 0.875em;
+  background: var(--color-stone-100);
+  padding: 0.125em 0.375em;
+  border-radius: 2px;
+}
+
+/* The colophon at the bottom of every issue. Detect by the heading text;
+ * uses a CSS heuristic instead of marking it in markdown. */
+.zine-prose h2:last-of-type {
+  font-size: 0.6875rem;
+  letter-spacing: 0.3em;
+}
+
+.zine-prose h2:last-of-type ~ p {
+  font-family: var(--font-zine-mono);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  color: var(--color-stone-500);
+  text-indent: 0;
+}
