@@ -524,7 +524,7 @@ const styles: Record<string, React.CSSProperties> = {
     display: 'grid',
     gridTemplateColumns: '1fr clamp(280px, 26vw, 380px)',
     gap: 36,
-    padding: '20px 28px 4px',
+    padding: '8px 28px 4px',
     alignItems: 'end',
   },
   coverTitle: {
