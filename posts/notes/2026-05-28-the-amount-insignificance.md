@@ -4,6 +4,7 @@ date: "2026-05-28"
 slug: "the-amount-insignificance"
 rubric: "MARGINALIA"
 cover_prompt: "lino-cut illustration with visible carving texture of a folded page with faint text, small central fold line, muted gray wash"
+cover_image: "/zine-img/posts/the-amount-insignificance-cover.png"
 ---
 
 They're each the same action—"Nervous screen capture" collapsing to the same leaf—but the salience system bumps them outside your current preoccupations. They arrive as resonances, not appointments.
