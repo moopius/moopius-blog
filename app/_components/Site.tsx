@@ -10,27 +10,41 @@ import Secret from './Secret'
 const STAGE_W = 1400
 const STAGE_H = 1200
 
+const LIGHT_TABLE = {
+  bg: 'radial-gradient(ellipse at 50% 35%, #f3e9ce 0%, #e8dcb9 55%, #d9c9a0 100%)',
+  texture:
+    'repeating-linear-gradient(0deg, rgba(0,0,0,0.018) 0 1px, transparent 1px 6px), repeating-linear-gradient(90deg, rgba(0,0,0,0.012) 0 1px, transparent 1px 9px)',
+  vignette:
+    'radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(60,40,15,0.18) 100%)',
+}
+
+const DARK_TABLE = {
+  bg: 'radial-gradient(ellipse at 50% 35%, #1a1410 0%, #0c0a08 60%, #050402 100%)',
+  texture:
+    'repeating-linear-gradient(0deg, rgba(255,200,140,0.03) 0 1px, transparent 1px 3px)',
+  vignette:
+    'radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(0,0,0,0.6) 100%)',
+}
+
 export default function Site({ posts }: { posts: CollagePost[] }) {
   const [mode, setMode] = useState<'primary' | 'secret'>('primary')
-  const [flipping, setFlipping] = useState(false)
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const [scale, setScale] = useState(1)
 
-  const flip = useCallback(
-    (to: 'primary' | 'secret') => {
-      if (flipping) return
-      setFlipping(true)
-      window.setTimeout(() => setMode(to), 360)
-      window.setTimeout(() => setFlipping(false), 720)
-    },
-    [flipping],
-  )
+  const flip = useCallback((to: 'primary' | 'secret') => {
+    setMode(to)
+  }, [])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      // Ignore when the user is typing into a field.
       const target = e.target as HTMLElement | null
-      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return
+      if (
+        target &&
+        (target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.isContentEditable)
+      )
+        return
       if (e.key === '`' || e.key === '~') {
         flip(mode === 'primary' ? 'secret' : 'primary')
       }
@@ -53,6 +67,7 @@ export default function Site({ posts }: { posts: CollagePost[] }) {
   }, [])
 
   const scaledHeight = STAGE_H * scale
+  const table = mode === 'primary' ? LIGHT_TABLE : DARK_TABLE
 
   return (
     <div
@@ -61,38 +76,45 @@ export default function Site({ posts }: { posts: CollagePost[] }) {
         position: 'relative',
         width: '100%',
         height: scaledHeight,
-        perspective: '2200px',
         overflow: 'hidden',
+        background: table.bg,
       }}
     >
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: table.texture,
+          pointerEvents: 'none',
+        }}
+      />
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: table.vignette,
+          pointerEvents: 'none',
+        }}
+      />
+
       <div
         style={{
           position: 'absolute',
           top: 0,
-          left: 0,
+          left: '50%',
           width: STAGE_W,
           height: STAGE_H,
-          transformOrigin: 'top left',
-          transform: `scale(${scale})`,
+          transformOrigin: 'top center',
+          transform: `translateX(-50%) scale(${scale})`,
         }}
       >
-        <div
-          style={{
-            width: '100%',
-            height: '100%',
-            transformStyle: 'preserve-3d',
-            transition: 'transform 0.36s cubic-bezier(0.7, 0, 0.3, 1)',
-            transform: flipping
-              ? `rotateY(${mode === 'primary' ? 90 : -90}deg)`
-              : 'rotateY(0deg)',
-          }}
-        >
-          {mode === 'primary' ? (
-            <Collage posts={posts} onEnterSecret={() => flip('secret')} />
-          ) : (
-            <Secret posts={posts} onExit={() => flip('primary')} />
-          )}
-        </div>
+        {mode === 'primary' ? (
+          <Collage posts={posts} onEnterSecret={() => flip('secret')} />
+        ) : (
+          <Secret posts={posts} onExit={() => flip('primary')} />
+        )}
       </div>
     </div>
   )

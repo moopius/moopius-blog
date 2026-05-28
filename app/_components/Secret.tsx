@@ -50,31 +50,9 @@ export default function Secret({
         width: '100%',
         height: '100%',
         minHeight: 1200,
-        background:
-          'radial-gradient(ellipse at 35% 30%, #1a1410 0%, #0c0a08 60%, #050402 100%)',
-        overflow: 'hidden',
         color: '#e5d9c3',
       }}
     >
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background:
-            'repeating-linear-gradient(0deg, rgba(255,200,140,0.03) 0 1px, transparent 1px 3px)',
-          pointerEvents: 'none',
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background:
-            'radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(0,0,0,0.6) 100%)',
-          pointerEvents: 'none',
-        }}
-      />
-
       <div style={{ position: 'absolute', inset: 0 }}>
         {placed.map(({ post, slot }) => (
           <SecretTile

@@ -37,9 +37,6 @@ const SLOTS: Slot[] = [
   { x: 1180, y: 540, w: 170, rot: 6,  frame: 'polaroid', tape: 'tr',   z: 12 },
 ]
 
-const ROOT_BG =
-  'radial-gradient(ellipse at 30% 25%, #f3e9ce 0%, #e8dcb9 55%, #d9c9a0 100%)'
-
 export default function Collage({
   posts,
   onEnterSecret,
@@ -56,30 +53,9 @@ export default function Collage({
         width: '100%',
         height: '100%',
         minHeight: 1200,
-        background: ROOT_BG,
-        overflow: 'hidden',
         color: '#1c1a16',
       }}
     >
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background:
-            'repeating-linear-gradient(0deg, rgba(0,0,0,0.018) 0 1px, transparent 1px 6px), repeating-linear-gradient(90deg, rgba(0,0,0,0.012) 0 1px, transparent 1px 9px)',
-          pointerEvents: 'none',
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background:
-            'radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(60,40,15,0.18) 100%)',
-          pointerEvents: 'none',
-        }}
-      />
-
       <div style={{ position: 'absolute', inset: 0 }}>
         {placed.map(({ post, slot }) => (
           <Tile key={post.slug} post={post} slot={slot} />
