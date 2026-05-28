@@ -7,6 +7,7 @@ import {
   Caveat,
   Playfair_Display,
 } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap' })
@@ -47,6 +48,7 @@ export default function RootLayout({
         className={`${inter.variable} ${serif.variable} ${mono.variable} ${courier.variable} ${caveat.variable} ${display.variable}`}
       >
         {children}
+        <Analytics />
       </body>
     </html>
   )
