@@ -29,15 +29,6 @@ const FONT = {
   courier: 'var(--font-courier), monospace',
 } as const
 
-const SEASONS = ['Winter', 'Spring', 'Summer', 'Autumn'] as const
-function seasonOf(d: Date): string {
-  const m = d.getUTCMonth()
-  if (m <= 1 || m === 11) return 'Winter'
-  if (m <= 4) return 'Spring'
-  if (m <= 7) return 'Summer'
-  return 'Autumn'
-}
-
 function romanize(n: number): string {
   const map: [number, string][] = [
     [1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'],
@@ -129,6 +120,20 @@ export default function Bulletin({ posts, agenda }: Props) {
 
   return (
     <div style={styles.root}>
+      {/* Top nav */}
+      <nav style={styles.topNav}>
+        {(['dreams', 'notes', 'progress', 'agenda'] as const).map((s) => (
+          <Link key={s} href={`/${s}`} style={styles.topNavItem}>
+            <span style={{ fontStyle: 'italic' }}>
+              {SECTION_META[s].title.toLowerCase()}
+            </span>
+            <span style={styles.topNavCount}>
+              ×{s === 'agenda' ? counts.obs : counts[s as keyof typeof counts]}
+            </span>
+          </Link>
+        ))}
+      </nav>
+
       {/* Cover row */}
       <div style={styles.coverRow}>
         <div style={styles.coverTitle} aria-label="Moopius">
@@ -141,10 +146,10 @@ export default function Bulletin({ posts, agenda }: Props) {
         </div>
         <div style={styles.coverRight}>
           <div style={styles.coverSlash}>
-            What&rsquo;s<br />in <em>this</em> issue:
+            What&rsquo;s <em>new</em>:
           </div>
           <ol style={styles.coverList}>
-            {posts.slice(0, 5).map((p, i) => (
+            {posts.slice(0, 3).map((p, i) => (
               <li key={p.slug} style={{ marginBottom: 4 }}>
                 <span style={styles.coverNum}>{String(i + 1).padStart(2, '0')}.</span>{' '}
                 <Link href={postHref(p)} style={styles.coverListLink}>
@@ -158,6 +163,21 @@ export default function Bulletin({ posts, agenda }: Props) {
           </ol>
         </div>
       </div>
+
+      {/* Amber band — first sentence of the most recent story, set big. */}
+      {lead && (
+        <Link href={postHref(lead)} style={styles.bandLink}>
+          <div style={styles.band}>
+            <span style={styles.bandMark}>&ldquo;</span>
+            <span style={styles.bandText}>
+              {lead.pull ?? firstSentence(lead.excerpt, 240)}
+            </span>
+            <span style={styles.bandTail}>
+              — {lead.title.toLowerCase()}
+            </span>
+          </div>
+        </Link>
+      )}
 
       {/* Main grid */}
       <div style={styles.grid}>
@@ -451,26 +471,12 @@ export default function Bulletin({ posts, agenda }: Props) {
         )}
       </div>
 
-      {/* Section navigation band */}
-      <div style={styles.threadsBand}>
-        <span style={styles.threadsBandLabel}>
-          · moopius · {romanize(new Date().getUTCFullYear())} ·
+      {/* Colophon band — left/right, room for legal links later. */}
+      <div style={styles.colophonBand}>
+        <span style={styles.colophonLeft}>moopius</span>
+        <span style={styles.colophonRight}>
+          {romanize(new Date().getUTCFullYear())}
         </span>
-        {(['dreams', 'notes', 'progress', 'agenda'] as const).map((s) => (
-          <Link key={s} href={`/${s}`} style={styles.threadsBandItem}>
-            <span style={{ fontStyle: 'italic' }}>{SECTION_META[s].title.toLowerCase()}</span>
-            <span
-              style={{
-                fontFamily: FONT.mono,
-                fontSize: 9.5,
-                color: COLORS.amber,
-                marginLeft: 4,
-              }}
-            >
-              ×{s === 'agenda' ? counts.obs : counts[s as keyof typeof counts]}
-            </span>
-          </Link>
-        ))}
       </div>
     </div>
   )
@@ -488,19 +494,30 @@ const styles: Record<string, React.CSSProperties> = {
     maxWidth: 1480,
     margin: '0 auto',
   },
-  ribbon: {
+  topNav: {
     display: 'flex',
     flexWrap: 'wrap',
-    alignItems: 'center',
-    gap: 18,
-    padding: '8px 28px',
+    alignItems: 'baseline',
+    gap: 28,
+    padding: '12px 28px',
     background: COLORS.ink,
-    color: COLORS.amber,
-    fontFamily: FONT.mono,
-    fontSize: 10.5,
-    letterSpacing: '0.18em',
-    textTransform: 'uppercase',
+    color: COLORS.parchmentSoft,
     borderBottom: `3px solid ${COLORS.amber}`,
+  },
+  topNavItem: {
+    fontFamily: FONT.body,
+    fontSize: 17,
+    color: COLORS.parchmentSoft,
+    textDecoration: 'none',
+    display: 'inline-flex',
+    alignItems: 'baseline',
+    gap: 6,
+  },
+  topNavCount: {
+    fontFamily: FONT.mono,
+    fontSize: 10,
+    color: COLORS.amber,
+    letterSpacing: '0.08em',
   },
 
   coverRow: {
@@ -519,27 +536,27 @@ const styles: Record<string, React.CSSProperties> = {
     letterSpacing: '-0.04em',
     overflow: 'hidden',
   },
-  coverM: { fontSize: 'clamp(56px, 11vw, 156px)', color: COLORS.ink },
+  coverM: { fontSize: 'clamp(64px, 13vw, 176px)', color: COLORS.ink },
   coverOO: {
-    fontSize: 'clamp(56px, 11vw, 156px)',
+    fontSize: 'clamp(64px, 13vw, 176px)',
     color: COLORS.amber,
     fontStyle: 'italic',
     fontFamily: FONT.display,
     fontWeight: 900,
   },
   coverI: {
-    fontSize: 'clamp(56px, 11vw, 156px)',
+    fontSize: 'clamp(64px, 13vw, 176px)',
     color: COLORS.ink,
     fontFamily: FONT.courier,
   },
-  coverRight: { paddingBottom: 18 },
+  coverRight: { paddingBottom: 6 },
   coverSlash: {
     fontFamily: FONT.display,
-    fontSize: 'clamp(26px, 3vw, 38px)',
-    lineHeight: 0.95,
+    fontSize: 'clamp(22px, 2.4vw, 30px)',
+    lineHeight: 1,
     fontStyle: 'italic',
     color: COLORS.ink,
-    marginBottom: 14,
+    marginBottom: 10,
   },
   coverList: {
     listStyle: 'none',
@@ -558,6 +575,47 @@ const styles: Record<string, React.CSSProperties> = {
     letterSpacing: '0.06em',
   },
   coverListLink: { color: COLORS.ink, textDecoration: 'none' },
+
+  bandLink: { textDecoration: 'none', color: 'inherit', display: 'block' },
+  band: {
+    padding: '22px 28px',
+    background: COLORS.amber,
+    color: COLORS.ink,
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignItems: 'baseline',
+    gap: 14,
+    margin: '20px 0 0',
+  },
+  bandMark: {
+    fontFamily: FONT.display,
+    fontSize: 56,
+    lineHeight: 0.6,
+    color: COLORS.ink,
+    alignSelf: 'flex-start',
+    marginRight: -4,
+  },
+  bandText: {
+    flex: 1,
+    minWidth: '50%',
+    fontFamily: FONT.display,
+    fontStyle: 'italic',
+    fontSize: 'clamp(26px, 3.2vw, 44px)',
+    fontWeight: 900,
+    lineHeight: 1.1,
+    letterSpacing: '-0.01em',
+  },
+  bandTail: {
+    fontFamily: FONT.mono,
+    fontSize: 11,
+    letterSpacing: '0.16em',
+    textTransform: 'uppercase',
+    color: COLORS.ink,
+    opacity: 0.7,
+    alignSelf: 'flex-end',
+    marginLeft: 'auto',
+    whiteSpace: 'nowrap',
+  },
 
   grid: {
     display: 'grid',
@@ -725,27 +783,21 @@ const styles: Record<string, React.CSSProperties> = {
     display: 'block',
   },
 
-  threadsBand: {
+  colophonBand: {
     display: 'flex',
     flexWrap: 'wrap',
-    alignItems: 'center',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
     gap: 18,
-    padding: '16px 28px',
+    padding: '14px 28px',
     background: COLORS.ink,
     color: COLORS.parchmentSoft,
     marginTop: 16,
-  },
-  threadsBandLabel: {
     fontFamily: FONT.mono,
     fontSize: 11,
-    letterSpacing: '0.14em',
-    color: COLORS.amber,
+    letterSpacing: '0.18em',
     textTransform: 'uppercase',
   },
-  threadsBandItem: {
-    fontFamily: FONT.body,
-    fontSize: 17,
-    color: COLORS.parchmentSoft,
-    textDecoration: 'none',
-  },
+  colophonLeft: { color: COLORS.amber },
+  colophonRight: { color: COLORS.parchmentSoft, opacity: 0.8 },
 }
