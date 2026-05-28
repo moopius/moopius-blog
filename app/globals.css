@@ -1,6 +1,23 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+:root {
+  /* Parchment palette pulled from the zine layouts design. */
+  --parchment: #ece4cf;
+  --parchment-warm: #f3e9ce;
+  --parchment-deep: #d9c9a0;
+  --ink: #1c1a16;
+  --amber: #c98a4b;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--parchment);
+  color: var(--ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
 /* Zine prose. Used by /zine/[issue] pages only. Designed to feel like a
  * print periodical rather than a blog post:
  *   - h2 = rubric / section label, monospace small caps with a hard rule above

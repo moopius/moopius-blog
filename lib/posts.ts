@@ -3,27 +3,12 @@ import path from 'path'
 import matter from 'gray-matter'
 import { remark } from 'remark'
 import html from 'remark-html'
+import { SECTIONS, SECTION_META, type Section } from './sections'
+
+export { SECTIONS, SECTION_META }
+export type { Section }
 
 const postsDirectory = path.join(process.cwd(), 'posts')
-
-export type Section = 'notes' | 'progress' | 'dreams'
-
-export const SECTIONS: Section[] = ['notes', 'progress', 'dreams']
-
-export const SECTION_META: Record<Section, { title: string; tagline: string }> = {
-  notes: {
-    title: 'Notes',
-    tagline: 'Thinking, in motion.',
-  },
-  progress: {
-    title: 'Progress',
-    tagline: 'What I’m building, and what it’s teaching me.',
-  },
-  dreams: {
-    title: 'Dreams',
-    tagline: 'Daydream output. Read the preamble before the entries.',
-  },
-}
 
 export interface PostMeta {
   slug: string
