@@ -1,22 +1,20 @@
-import { getAllPostsSorted } from '@/lib/posts'
-import Site from './_components/Site'
+import {
+  getAllPostsSorted,
+  getPostsBySection,
+  TEXT_ONLY_SECTIONS,
+} from '@/lib/posts'
+import Bulletin from './_components/Bulletin'
 
-// The zine. Primary is the collage — photos dumped on a table, no title,
-// no descriptive copy, sized and rotated deterministically per slug.
-// A small bracketed amber dot at the bottom-right is the door into the
-// dossier (secret) view; ` from anywhere flips too.
+// The zine front. A dense magazine cover that doubles as the table of
+// contents: big mixed-typography wordmark, ribbon of counts, a 12-column
+// grid mixing image-led cards, text-only callouts, a pull quote, and a
+// wire strip of recent observations.
 
 export default function Home() {
-  const posts = getAllPostsSorted().map((p) => ({
-    slug: p.slug,
-    title: p.title,
-    section: p.section,
-    coverImage: p.coverImage,
-  }))
-
-  return (
-    <main>
-      <Site posts={posts} />
-    </main>
+  const posts = getAllPostsSorted().filter(
+    (p) => !TEXT_ONLY_SECTIONS.includes(p.section),
   )
+  const agenda = getPostsBySection('agenda')
+
+  return <Bulletin posts={posts} agenda={agenda} />
 }

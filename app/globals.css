@@ -149,3 +149,123 @@ html, body {
   color: var(--color-stone-500);
   text-indent: 0;
 }
+
+/* Bulletin body — markdown rendered inside the BulletinPost layout.
+ * Justified, drop-cap on the first paragraph, hairline horizontal rules,
+ * pull-quote-style blockquotes. Kept narrow (max-width ~760px) by the
+ * containing column. */
+
+.bulletin-body p {
+  margin: 0 0 16px;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ink);
+  text-align: justify;
+  hyphens: auto;
+}
+
+.bulletin-body > p:first-child::first-letter {
+  font-family: var(--font-display), serif;
+  font-size: 64px;
+  line-height: 0.85;
+  float: left;
+  margin: 4px 10px 0 0;
+  color: var(--amber);
+  font-style: italic;
+}
+
+.bulletin-body em {
+  font-style: italic;
+}
+
+.bulletin-body strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.bulletin-body a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--amber);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.bulletin-body a:hover {
+  text-decoration-color: var(--ink);
+}
+
+.bulletin-body blockquote {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.35;
+  color: var(--ink);
+  border-left: 2px solid var(--amber);
+  padding-left: 18px;
+  margin: 20px 0;
+  text-align: left;
+}
+
+.bulletin-body blockquote p {
+  text-align: left;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  margin: 0 0 8px;
+}
+
+.bulletin-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.bulletin-body hr {
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 20%, transparent);
+  margin: 28px auto;
+  width: 50%;
+}
+
+.bulletin-body h2,
+.bulletin-body h3 {
+  font-family: var(--font-display), serif;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 28px 0 10px;
+}
+
+.bulletin-body h2 {
+  font-size: 28px;
+  line-height: 1.05;
+}
+
+.bulletin-body h3 {
+  font-size: 22px;
+  font-style: italic;
+}
+
+.bulletin-body code {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.875em;
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  padding: 0.125em 0.375em;
+  border-radius: 2px;
+}
+
+.bulletin-body img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 18px 0;
+}
+
+/* Card hover: a quiet lift on Bulletin grid tiles. Targets any anchor
+ * inside the bulletin layouts. Slight scale only — no shadows that
+ * would break the editorial flatness. */
+a:hover > h2,
+a:hover > h3 {
+  text-decoration: none;
+}

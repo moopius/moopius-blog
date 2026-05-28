@@ -1,9 +1,14 @@
 // Shared section metadata. Lives in its own module so client components
 // can import it without dragging in the filesystem-bound post reader.
 
-export type Section = 'notes' | 'progress' | 'dreams'
+export type Section = 'notes' | 'progress' | 'dreams' | 'agenda'
 
-export const SECTIONS: Section[] = ['notes', 'progress', 'dreams']
+export const SECTIONS: Section[] = ['notes', 'progress', 'dreams', 'agenda']
+
+// Sections that don't carry cover art and don't belong on the photo
+// wall. The homepage filters these out before passing posts down to the
+// collage; the section index pages handle them normally.
+export const TEXT_ONLY_SECTIONS: Section[] = ['agenda']
 
 export const SECTION_META: Record<
   Section,
@@ -23,5 +28,10 @@ export const SECTION_META: Record<
     title: 'Dreams',
     tagline: 'Daydream output. Read the preamble before the entries.',
     dot: '#c98a4b',
+  },
+  agenda: {
+    title: 'Agenda',
+    tagline: 'Daily noticings.',
+    dot: '#7a7065',
   },
 }
